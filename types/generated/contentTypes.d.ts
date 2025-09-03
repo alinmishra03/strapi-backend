@@ -441,6 +441,37 @@ export interface ApiPresentationPresentation
   };
 }
 
+export interface ApiSecFilingSecFiling extends Struct.CollectionTypeSchema {
+  collectionName: 'sec_filings';
+  info: {
+    displayName: 'sec-filing';
+    pluralName: 'sec-filings';
+    singularName: 'sec-filing';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    description: Schema.Attribute.String;
+    documents: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    form: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::sec-filing.sec-filing'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiSubscriberSubscriber extends Struct.CollectionTypeSchema {
   collectionName: 'subscribers';
   info: {
@@ -980,6 +1011,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::contact.contact': ApiContactContact;
       'api::presentation.presentation': ApiPresentationPresentation;
+      'api::sec-filing.sec-filing': ApiSecFilingSecFiling;
       'api::subscriber.subscriber': ApiSubscriberSubscriber;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
